@@ -10,89 +10,46 @@
     <description>database数据源配置</description>
 
 
-    <!-- onedb configure start -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <!-- <property name="dbType" value="#{applicationPropertiesConfig['database.driverClassName']}" /> -->
+        <!-- 基本属性 url、user、password -->
+        <property name="url" value="${database.url}"/>
+        <!-- 用户名 -->
+        <property name="username" value="${database.user}"/>
+        <!-- 密码 -->
+        <property name="password" value="${database.password}"/>
 
-    <bean id="onedbDataSource" abstract="true"
-          class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
-        <property name="driverClass">
-            <value>${jdbc.driverClassName}</value>
-        </property>
-        <property name="maxPoolSize">
-            <value>${jdbc.maxPoolSize}</value>
-        </property>
-        <property name="minPoolSize">
-            <value>${jdbc.minPoolSize}</value>
-        </property>
-        <property name="idleConnectionTestPeriod">
-            <value>${jdbc.idleConnectionTestPeriod}</value>
-        </property>
-        <property name="maxIdleTime">
-            <value>${jdbc.maxIdleTime}</value>
-        </property>
-    </bean>
+        <!-- 配置初始化大小、最小、最大 -->
+        <property name="initialSize" value="${database.initialSize}"/>
+        <property name="minIdle" value="${database.minIdle}"/>
+        <property name="maxActive" value="${database.maxActive}"/>
 
-    <bean id="onedb_0" parent="onedbDataSource">
-        <property name="jdbcUrl">
-            <value>${jdbc.db_0.url}</value>
-        </property>
-        <property name="user">
-            <value>${jdbc.db_0.username}</value>
-        </property>
-        <property name="password">
-            <value>${jdbc.db_0.password}</value>
-        </property>
+        <!-- 配置获取连接等待超时的时间 -->
+        <property name="maxWait" value="60000"/>
+        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+        <property name="timeBetweenEvictionRunsMillis" value="6000"/>
+        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+        <property name="minEvictableIdleTimeMillis" value="300000"/>
+        <property name="validationQuery" value="SELECT 'x'"/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="testOnBorrow" value="false"/>
+        <property name="testOnReturn" value="false"/>
+        <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+        <property name="poolPreparedStatements" value="true"/>
+        <!-- -如果用Oracle，则把poolPreparedStatements配置为true，mysql可以配置为false。分库分表较多的数据库，建议配置为false。 -->
+        <property name="maxPoolPreparedStatementPerConnectionSize" value="20"/>
+        <!-- 配置监控统计拦截的filters -->
+        <property name="filters" value="stat"/>
     </bean>
-
-    <bean id="vdb_one"
-          class="com.baidu.ub.common.dbmanage.datasource.VirtualDataSource">
-        <property name="masterSet">
-            <list>
-                <value>onedb_0</value>
-            </list>
-        </property>
-        <property name="loadbalance" value="1"/>
-    </bean>
-
-    <bean id="onedbMultiDataSource" class="com.baidu.ub.common.dbmanage.datasource.MultiDataSource">
-        <property name="targetDataSources">
-            <map key-type="java.lang.String">
-                <entry key="onedb_0" value-ref="onedb_0"/>
-            </map>
-        </property>
-        <property name="defaultTargetDataSource" ref="onedb_0"/>
-        <property name="multiDataSourceKeyContext">
-            <ref local="onedbMultiDSKeyContext"/>
-        </property>
-    </bean>
-
-    <bean id="onedbRouter" class="com.baidu.ub.common.dbmanage.router.IDRouter">
-        <property name="prefix" value="vdb_one"/>
-        <property name="dbShardingRule">
-            <ref local="onedbShardingRule"/>
-        </property>
-    </bean>
-    <bean id="onedbShardingRule"
-          class="com.baidu.ub.common.dbmanage.rule.SimpleDBShardingRuleImpl">
-        <property name="shardingNum" value="1"/>
-    </bean>
-    <bean id="onedbMultiDSKeyContext"
-          class="com.baidu.ub.common.dbmanage.datasource.MultiDataSourceKeyContext">
-        <property name="router">
-            <ref local="onedbRouter"/>
-        </property>
-        <property name="dbName" value="oneDB"/>
-    </bean>
-
     <bean id="onedbJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-        <property name="dataSource" ref="onedbMultiDataSource"/>
+        <property name="dataSource" ref="dataSource"/>
     </bean>
     <!-- onedb configure end -->
-
 
     <!-- Transaction config -->
     <bean id="onedbTransactionManager"
           class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="onedbMultiDataSource"/>
+        <property name="dataSource" ref="dataSource"/>
     </bean>
     <tx:annotation-driven transaction-manager="onedbTransactionManager"/>
 

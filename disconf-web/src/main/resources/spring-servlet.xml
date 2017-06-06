@@ -96,8 +96,7 @@
                     <constructor-arg index="0" value="application"/>
                     <constructor-arg index="1" value="json"/>
                     <constructor-arg index="2">
-                        <util:map id="jsonMediaTypeParams"
-                                  map-class="java.util.HashMap">
+                        <util:map id="jsonMediaTypeParams" map-class="java.util.HashMap">
                             <entry key="q" value="0.9999"></entry>
                             <entry key="charset" value="UTF-8"></entry>
                         </util:map>
@@ -141,14 +140,11 @@
     <bean id="multipartResolver"
           class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="defaultEncoding" value="UTF-8"/>
-        <property name="uploadTempDir" value="temp"></property>
+        <property name="uploadTempDir"   value="temp"/>
         <property name="maxInMemorySize" value="4194304"/>
         <!-- 最大内存大小 -->
         <property name="maxUploadSize" value="4194304"/>
         <!-- 最大文件大小，1024*1024*4 = 4M -->
     </bean>
-
-    <mvc:resources mapping="/api/system/**" location="/WEB-INF/public-resources/"
-                   cache-period="259200"/>
-
+    <mvc:resources mapping="/**/*.html" location="/html/" />
 </beans>
