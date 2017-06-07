@@ -15,7 +15,7 @@
         <!-- 基本属性 url、user、password -->
         <property name="url" value="${database.url}"/>
         <!-- 用户名 -->
-        <property name="username" value="${database.user}"/>
+        <property name="username" value="${database.username}"/>
         <!-- 密码 -->
         <property name="password" value="${database.password}"/>
 

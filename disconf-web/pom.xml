@@ -361,9 +361,9 @@
 
     <profiles>
 
-        <!-- online -->
+        <!-- production -->
         <profile>
-            <id>online</id>
+            <id>production</id>
             <build>
                 <plugins>
 
@@ -399,6 +399,45 @@
                                     </includes>
                                 </resource>
 
+                            </webResources>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>development</id>
+            <build>
+                <plugins>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <configuration>
+                            <excludes>
+                                <exclude>**/RoleResourceAspectMock.java</exclude>
+                            </excludes>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <configuration>
+                            <webResources>
+                                <resource>
+                                    <directory>${project.build.online.sourceDir}</directory>
+                                    <targetPath>WEB-INF/classes</targetPath>
+                                    <includes>
+                                        <include>**/*.*</include>
+                                    </includes>
+                                </resource>
+                                <resource>
+                                    <directory>${project.build.online.sourceDir}</directory>
+                                    <targetPath>/</targetPath>
+                                    <includes>
+                                        <include>**/logagent.conf</include>
+                                    </includes>
+                                </resource>
                             </webResources>
                         </configuration>
                     </plugin>

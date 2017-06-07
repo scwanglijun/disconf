@@ -42,7 +42,7 @@
         <cglib.version>2.2.2</cglib.version>
 
         <!-- resource path -->
-        <project.build.online.sourceDir>${project.basedir}/src/main/online-resources</project.build.online.sourceDir>
+        <project.build.online.sourceDir>${project.basedir}/src/main/resources</project.build.online.sourceDir>
         <project.build.offline.sourceDir>${project.basedir}/src/main/resources</project.build.offline.sourceDir>
 
         <!-- 模块版本号 -->

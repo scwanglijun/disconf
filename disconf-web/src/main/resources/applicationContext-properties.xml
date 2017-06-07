@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       default-autowire="byName" default-lazy-init="false"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+    <!--settings-->
+
+    <!-- 开发环境 -->
+    <beans profile="development">
+        <bean id="propertyConfigurerForProject1" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+            <property name="order" value="1"/>
+            <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
+            <property name="ignoreResourceNotFound" value="true"/>
+            <property name="ignoreUnresolvablePlaceholders" value="true"/>
+            <property name="locations">
+                <list>
+                    <value>classpath*:/properties/dev/jdbc-mysql.properties</value>
+                    <value>classpath*:/properties/dev/zoo.properties</value>
+                    <value>classpath*:/properties/dev/redis-config.properties</value>
+                    <value>classpath*:/properties/dev/application.properties</value>
+                    <value>classpath*:/properties/dev/spring-cache.properties</value>
+                </list>
+            </property>
+        </bean>
+    </beans>
+
+    <!-- 生产环境 -->
+    <beans profile="production">
+        <bean id="propertyConfigurerForProject1" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+            <property name="order" value="1"/>
+            <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
+            <property name="ignoreResourceNotFound" value="true"/>
+            <property name="ignoreUnresolvablePlaceholders" value="true"/>
+            <property name="locations">
+                <list>
+                    <value>classpath*:/properties/dev/jdbc-mysql.properties</value>
+                    <value>classpath*:/properties/dev/zoo.properties</value>
+                    <value>classpath*:/properties/dev/redis-config.properties</value>
+                    <value>classpath*:/properties/dev/application.properties</value>
+                    <value>classpath*:/properties/dev/spring-cache.properties</value>
+                </list>
+            </property>
+        </bean>
+    </beans>
+</beans>
