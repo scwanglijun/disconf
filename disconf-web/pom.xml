@@ -349,30 +349,22 @@
                 <profiles.activation>development</profiles.activation>
             </properties>
             <build>
+                <resources>
+                    <resource>
+                            <directory>src/main/resources</directory>
+                        <includes>
+                            <include>**/*.xml</include>
+                            <include>**/*.properties</include>
+                        </includes>
+                    </resource>
+
+                </resources>
                 <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>build-helper-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>add-source</id>
-                                <phase>generate-sources</phase>
-                                <goals>
-                                    <goal>add-source</goal>
-                                </goals>
-                                <configuration>
-                                    <sources>
-                                        <source>${basedir}/src/extend/java</source>
-                                    </sources>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-war-plugin</artifactId>
                         <configuration>
-                            <warName>disconf</warName>
+                            <warName>disconf-web</warName>
                             <!-- 激活spring profile -->
                             <webResources>
                                 <resource>
@@ -385,12 +377,6 @@
                             </webResources>
                             <warSourceDirectory>src/main/webapp</warSourceDirectory>
                             <webXml>src/main/webapp/WEB-INF/web.xml</webXml>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <artifactId>maven-compiler-plugin</artifactId>
-                        <configuration>
-                            <encoding>UTF-8</encoding>
                         </configuration>
                     </plugin>
                 </plugins>
